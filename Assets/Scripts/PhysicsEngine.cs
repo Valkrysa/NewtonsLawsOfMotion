@@ -6,7 +6,8 @@ public class PhysicsEngine : MonoBehaviour {
 
     public List<Vector3> forceVectorList;
     public Vector3 velocityVector; // average velocity in fixed update
-    public Vector3 netVelocityVector;
+    public Vector3 netForceVector;
+    public float mass;
 
     // Use this for initialization
     void Start () {
@@ -20,7 +21,14 @@ public class PhysicsEngine : MonoBehaviour {
 
     void FixedUpdate () {
         AddForces();
+        UpdateVelocity();
         transform.position += velocityVector * Time.deltaTime;
+    }
+
+    private void UpdateVelocity () {
+        Vector3 accelerationVector = netForceVector / mass;
+
+        velocityVector += accelerationVector * Time.deltaTime;
     }
 
     private void AddForces () {
@@ -30,6 +38,6 @@ public class PhysicsEngine : MonoBehaviour {
             netForces += forceVector;
         }
 
-        netVelocityVector = netForces;
+        netForceVector = netForces;
     }
 }
