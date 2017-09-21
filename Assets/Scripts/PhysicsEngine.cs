@@ -10,21 +10,41 @@ public class PhysicsEngine : MonoBehaviour {
     public bool showTrails = true;
 
     private List<Vector3> forceVectorList = new List<Vector3>();
+    private PhysicsEngine[] physicsEngineArray;
     private LineRenderer lineRenderer;
     private int numberOfForces;
+    private const float gravitationalConstant = 6.673e-11f; // [ m^3 * s^-2 * kg^-1 ]
 
     // Use this for initialization
     void Start () {
         SetupForceTrails();
+        physicsEngineArray = GameObject.FindObjectsOfType<PhysicsEngine>();
     }
 
     void FixedUpdate () {
         DrawTrails();
+        CalculateGravity();
         UpdatePosition();
     }
 
     public void AddForce (Vector3 forceVector) {
         forceVectorList.Add(forceVector);
+    }
+
+    private void CalculateGravity () {
+        // every physics engine acts on every other physics engine
+        foreach (PhysicsEngine physicsEngineA in physicsEngineArray) {
+            foreach (PhysicsEngine physicsEngineB in physicsEngineArray) {
+                if (physicsEngineA != physicsEngineB && physicsEngineA != this) {
+                    Vector3 offset = physicsEngineA.transform.position - physicsEngineB.transform.position;
+                    float rSquared = Mathf.Pow(offset.magnitude, 2f);
+                    float gravityMagnitude = gravitationalConstant * physicsEngineA.mass * physicsEngineB.mass / rSquared;
+                    Vector3 gravityFeltVector = gravityMagnitude * offset.normalized;
+
+                    physicsEngineA.AddForce(-gravityFeltVector);
+                }
+            }
+        }
     }
 
     private void UpdatePosition () {
