@@ -5,7 +5,7 @@ using UnityEngine;
 public class UniversalGravitation : MonoBehaviour {
 
     private PhysicsEngine[] physicsEngineArray;
-    private const float gravitationalConstant = 6.673e-11f;     // [ m^3 * s^-2 * kg^-1 ]
+    private const float gravitationalConstant = 6.673e-11f; // [ m^3 * s^-2 * kg^-1 ]
 
     // Use this for initialization
     void Start () {
