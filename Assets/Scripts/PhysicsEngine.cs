@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PhysicsEngine : MonoBehaviour {
 
-    public float mass; // M [kg] // 2,000,000 kg the mass of a space shuttle
-    public Vector3 velocityVector; // [m * s^-1]
-    public Vector3 netForceVector; // kN [kg * m * s^-2]
+    public float mass;              // M [kg] // 2,000,000 kg the mass of a space shuttle
+    public Vector3 velocityVector;  // [m * s^-1]
+    public Vector3 netForceVector;  // kN [kg * m * s^-2]
     public bool showTrails = true;
 
     private List<Vector3> forceVectorList = new List<Vector3>();
